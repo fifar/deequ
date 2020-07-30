@@ -58,8 +58,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <encoding>UTF-8</encoding>
-        <scala.major.version>2.11</scala.major.version>
-        <scala.version>${scala.major.version}.5</scala.version>
+        <scala.major.version>2.12</scala.major.version>
+        <scala.version>${scala.major.version}.11</scala.version>
+        <spark.version>3.0.0</spark.version>
         <scala-maven-plugin.version>3.4.4</scala-maven-plugin.version>
     </properties>
 
@@ -71,15 +72,23 @@
         </dependency>
 
         <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-reflect</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.major.version}</artifactId>
-            <version>2.2.2</version>
+            <version>${spark.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-sql_${scala.major.version}</artifactId>
-            <version>2.2.2</version>
+            <version>${spark.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -91,14 +100,14 @@
         <dependency>
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_${scala.major.version}</artifactId>
-            <version>2.2.6</version>
+            <version>3.2.0</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.scalamock</groupId>
             <artifactId>scalamock-scalatest-support_${scala.major.version}</artifactId>
-            <version>3.2.2</version>
+            <version>3.6.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -326,7 +335,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>2.2.1</version>
+                        <version>3.2.0</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -339,7 +348,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
+                        <version>3.2.0</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -352,7 +361,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
+                        <version>1.6</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>

@@ -553,7 +553,11 @@ object AnalysisRunner {
     }
 
     /* Potentially store states */
-    saveStatesTo.foreach { _.persist(analyzers.head, frequenciesAndNumRows) }
+    saveStatesTo.foreach { persister =>
+      analyzers.foreach { analyzer =>
+        persister.persist(analyzer, frequenciesAndNumRows)
+      }
+    }
 
     frequenciesAndNumRows.frequencies.unpersist()
 

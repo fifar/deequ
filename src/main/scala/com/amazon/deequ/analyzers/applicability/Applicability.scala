@@ -140,7 +140,8 @@ private[deequ] object Applicability {
     if (shouldBeNull(nullable)) {
       null
     } else {
-      new Timestamp(Random.nextLong())
+      val MICROS_PER_MILLIS = 1000L
+      new Timestamp(Random.nextLong() / MICROS_PER_MILLIS)
     }
   }
 

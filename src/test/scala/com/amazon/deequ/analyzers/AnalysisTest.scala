@@ -19,17 +19,20 @@ package com.amazon.deequ.analyzers
 import com.amazon.deequ.SparkContextSpec
 import com.amazon.deequ.analyzers.runners._
 import com.amazon.deequ.metrics.{DoubleMetric, Entity}
-import com.amazon.deequ.utils.FixtureSupport
 import com.amazon.deequ.utils.AssertionUtils.TryUtils
+import com.amazon.deequ.utils.FixtureSupport
 import org.apache.spark.sql.{DataFrame, Row}
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
 import scala.util.{Failure, Success}
 
-class AnalysisTest extends WordSpec with Matchers with SparkContextSpec with FixtureSupport {
+class AnalysisTest extends AnyWordSpec with Matchers with SparkContextSpec with FixtureSupport {
 
   "Analysis" should {
     "return results for configured analyzers" in withSparkSession { sparkSession =>
+
+      import sparkSession.implicits._
 
       val df = getDfFull(sparkSession)
 
@@ -42,8 +45,6 @@ class AnalysisTest extends WordSpec with Matchers with SparkContextSpec with Fix
 
       val successMetricsAsDataFrame = AnalyzerContext
         .successMetricsAsDataFrame(sparkSession, analysisResult)
-
-      import sparkSession.implicits._
       val expected = Seq(
         ("Dataset", "*", "Size", 4.0),
         ("Column", "item", "Distinctness", 1.0),
@@ -56,6 +57,8 @@ class AnalysisTest extends WordSpec with Matchers with SparkContextSpec with Fix
 
     "return results for configured analyzers in case insensitive manner" in
       withSparkSession { sparkSession =>
+
+        import sparkSession.implicits._
 
         sparkSession.sqlContext.setConf("spark.sql.caseSensitive", "false")
 
@@ -70,8 +73,6 @@ class AnalysisTest extends WordSpec with Matchers with SparkContextSpec with Fix
 
         val successMetricsAsDataFrame = AnalyzerContext
           .successMetricsAsDataFrame(sparkSession, analysisResult)
-
-        import sparkSession.implicits._
         val expected = Seq(
           ("Dataset", "*", "Size", 4.0),
           ("Column", "ITEM", "Distinctness", 1.0),
